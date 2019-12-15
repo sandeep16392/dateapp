@@ -6,3 +6,7 @@
 /DateApp.Core/bin/
 /DateApp.DAL/bin/
 /DateApp.DAL/obj/
+/.vs/DateApp/v16/Server/sqlite3/db.lock
+/.vs/DateApp/v16/Server/sqlite3/storage.ide
+/.vs/DateApp/v16/Server/sqlite3/storage.ide-shm
+/.vs/DateApp/v16/Server/sqlite3/storage.ide-wal
