@@ -1,5 +1,6 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0 
 #AS build
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0 as build
 WORKDIR /build
 
 # copy csproj and restore as distinct layers
@@ -16,12 +17,12 @@ COPY ./DateApp.DAL/DateApp.DAL.csproj ./DateApp.DAL/DateApp.DAL.csproj
 RUN dotnet restore ./DateApp.DAL/DateApp.DAL.csproj
 
 COPY . .
-RUN mkdir /published
-# no restore as we've already restored above
-RUN dotnet publish ./DateApp.API/DateApp.API.csproj --output /published
+RUN dotnet publish ./DateApp.API/DateApp.API.csproj --output /publish
 
-WORKDIR /published
-
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 as runtime
+WORKDIR /publish
+COPY --from=build /publish .
 # CMD bash -c "dotnet DateApp.API.dll"
 
 
