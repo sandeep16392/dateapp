@@ -17,7 +17,7 @@ COPY ./DateApp.DAL/DateApp.DAL.csproj ./DateApp.DAL/DateApp.DAL.csproj
 RUN dotnet restore ./DateApp.DAL/DateApp.DAL.csproj
 
 COPY . .
-RUN dotnet publish ./DateApp.API/DateApp.API.csproj --output /publish
+RUN dotnet publish ./DateApp.API/DateApp.API.csproj -c Release --output /publish
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.0 as runtime
