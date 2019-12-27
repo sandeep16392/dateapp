@@ -1,29 +1,8 @@
-version: '3'
+version: '3.4'
 services: 
-    date-app:
-        build: .
-        environment:
-            DatingAppDatabase: "Server=sql_db;Database=DateAppDb;User=sa;Password=Password!"
+    date.app:
+        build: 
+            context: .
         restart: on-failure
-        depends_on:
-            - sql_db
-        networks:
-            - sql
         ports:
-            - "8083:80"
-    sql_db:
-        image: mcr.microsoft.com/mssql/server
-        environment: 
-            ACCEPT_EULA: "Y"
-            SA_PASSWORD: "Password!"
-        container_name: sql_db
-        volumes:
-            - database:/var/opt/mssql
-        networks:
-            - sql
-        ports: 
-            - "1433:1433"
-networks:
-    sql:
-volumes:
-    database:
+            - "8080:80"

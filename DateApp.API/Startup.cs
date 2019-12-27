@@ -119,7 +119,7 @@ namespace DateApp.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            seeder.SeedUserData();
+            // seeder.SeedUserData();
             app.UseCors(
                 options => options.SetIsOriginAllowed(x => _ = true).AllowAnyMethod().AllowAnyHeader().AllowCredentials()
             );
