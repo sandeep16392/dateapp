@@ -52,7 +52,7 @@ namespace DateApp.API
             services.AddSingleton<ICommonConfigurations, CommonConfigurations>();
             services.AddSingleton<IUserMapper, UserMapper>();
             services.AddTransient<Seed>();
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DatingAppDatabase")).ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.IncludeIgnoredWarning)));
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DatingAppDatabase")));
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             //    .AddJsonOptions(opt =>
             //    {

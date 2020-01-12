@@ -143,7 +143,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _resolver_memberedit_resolver__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./resolver/memberedit.resolver */ "./src/app/resolver/memberedit.resolver.ts");
 /* harmony import */ var _guards_prevent_unsaved_changes_guard__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./guards/prevent-unsaved-changes.guard */ "./src/app/guards/prevent-unsaved-changes.guard.ts");
 /* harmony import */ var _member_photo_editor_photo_editor_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./member/photo-editor/photo-editor.component */ "./src/app/member/photo-editor/photo-editor.component.ts");
-/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/fesm5/ng2-file-upload.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_30___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_30__);
 /* harmony import */ var _resolver_lists_resolver__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./resolver/lists.resolver */ "./src/app/resolver/lists.resolver.ts");
 /* harmony import */ var _resolver_messages_resolver__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./resolver/messages.resolver */ "./src/app/resolver/messages.resolver.ts");
 /* harmony import */ var _member_member_messages_member_messages_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./member/member-messages/member-messages.component */ "./src/app/member/member-messages/member-messages.component.ts");
@@ -658,7 +659,7 @@ module.exports = ".img-thumbnail{\r\n    margin: 25px;\r\n    width: 85%;\r\n   
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container mt-4\">\n  <div class=\"row\">\n    <h1>{{user.knownAs}}'s Profile</h1>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-sm-4\">\n      <div class=\"card\">\n        <img src=\"{{user.photoUrl || '../../../../../assets/default.png'}}\" alt=\"{{user.knownAs}}\" class=\"card-img-top img-thumbnail\">\n        <div class=\"card-body\">\n          <div>\n            <strong>Location:</strong>\n            <p>{{user.city}}, {{user.country}}</p>\n          </div>\n          <div>\n            <strong>Age:</strong>\n            <p>{{user.age}}</p>\n          </div>\n          <div>\n            <strong>Last Active:</strong>\n            <p>{{user.lastActive| timeAgo}}</p>\n          </div>\n          <div>\n            <strong>Member Since:</strong>\n            <p>{{user.created| date:'dd/MM/yyyy'}}</p>\n          </div>\n        </div>\n        <div class=\"card-footer\">\n          <div class=\"btn-group d-flex\">\n            <button class=\"btn btn-primary w-100\">Like</button>\n            <button class=\"btn btn-success w-100\" (click)=\"selectTab(3)\">Message</button>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"col-sm-8\">\n      <div class=\"tab-panel\">\n        <tabset class=\"member-tabset\" #memberTabs>\n          <tab heading=\"About {{user.knownAs}}\">\n            <h4>Description</h4>\n            <p>{{user.introduction}}</p>\n            <h4>Looking For</h4>\n            <p>{{user.lookingFor}}</p>\n          </tab>\n          <tab heading=\"Interests\">\n            <h4>Interests</h4>\n            <p>{{user.interests}}</p>\n          </tab>\n          <tab heading=\"Photos\">\n            <ngx-gallery [options]=\"galleryOptions\" [images]=\"galleryImages\"></ngx-gallery>\n          </tab>\n          <tab heading=\"Messages\">\n            <app-member-messages [recipientId]=\"user.id\"></app-member-messages>\n          </tab>\n        </tabset>\n      </div>\n    </div>\n  </div>\n</div>"
+module.exports = "<div class=\"container mt-4\">\n  <div class=\"row\">\n    <h1>{{user.knownAs}}'s Profile</h1>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-sm-4\">\n      <div class=\"card\">\n        <img src=\"{{user.photoUrl || '../../../../../assets/default.png'}}\" alt=\"{{user.knownAs}}\" class=\"card-img-top img-thumbnail\">\n        <div class=\"card-body\">\n          <div>\n            <strong>Location:</strong>\n            <p>{{user.city}}, {{user.country}}</p>\n          </div>\n          <div>\n            <strong>Age:</strong>\n            <p>{{user.age}}</p>\n          </div>\n          <div>\n            <strong>Last Active:</strong>\n            <p>{{user.lastActive| timeAgo}}</p>\n          </div>\n          <div>\n            <strong>Member Since:</strong>\n            <p>{{user.created| date:'dd/MM/yyyy'}}</p>\n          </div>\n        </div>\n        <div class=\"card-footer\">\n          <div class=\"btn-group d-flex\">\n            <button class=\"btn btn-primary w-100\" (click)=\"sendLike()\">Like</button>\n            <button class=\"btn btn-success w-100\" (click)=\"selectTab(3)\">Message</button>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"col-sm-8\">\n      <div class=\"tab-panel\">\n        <tabset class=\"member-tabset\" #memberTabs>\n          <tab heading=\"About {{user.knownAs}}\">\n            <h4>Description</h4>\n            <p>{{user.introduction}}</p>\n            <h4>Looking For</h4>\n            <p>{{user.lookingFor}}</p>\n          </tab>\n          <tab heading=\"Interests\">\n            <h4>Interests</h4>\n            <p>{{user.interests}}</p>\n          </tab>\n          <tab heading=\"Photos\">\n            <ngx-gallery [options]=\"galleryOptions\" [images]=\"galleryImages\"></ngx-gallery>\n          </tab>\n          <tab heading=\"Messages\">\n            <app-member-messages [recipientId]=\"user.id\"></app-member-messages>\n          </tab>\n        </tabset>\n      </div>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -679,6 +680,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_gallery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-gallery */ "./node_modules/ngx-gallery/bundles/ngx-gallery.umd.js");
 /* harmony import */ var ngx_gallery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(ngx_gallery__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var ngx_bootstrap__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-bootstrap */ "./node_modules/ngx-bootstrap/esm5/ngx-bootstrap.js");
+/* harmony import */ var src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/auth.service */ "./src/app/services/auth.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -694,11 +696,13 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var MemberDetailComponent = /** @class */ (function () {
-    function MemberDetailComponent(userService, alertify, route) {
+    function MemberDetailComponent(userService, alertify, route, authService) {
         this.userService = userService;
         this.alertify = alertify;
         this.route = route;
+        this.authService = authService;
     }
     MemberDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -733,6 +737,14 @@ var MemberDetailComponent = /** @class */ (function () {
         }
         return imgUrls;
     };
+    MemberDetailComponent.prototype.sendLike = function () {
+        var _this = this;
+        this.userService.sendLike(this.authService.decodedToken.nameid, this.user.id).subscribe(function (resp) {
+            _this.alertify.success('You Liked!');
+        }, function (error) {
+            _this.alertify.error(error);
+        });
+    };
     MemberDetailComponent.prototype.selectTab = function (id) {
         this.memberTabs.tabs[id].active = true;
     };
@@ -748,7 +760,8 @@ var MemberDetailComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [src_app_services_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"],
             src_app_services_alertify_service__WEBPACK_IMPORTED_MODULE_2__["AlertifyService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
+            src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_6__["AuthService"]])
     ], MemberDetailComponent);
     return MemberDetailComponent;
 }());
@@ -1125,7 +1138,8 @@ module.exports = "<div class=\"row\">\n  <div class=\"col-sm-2\" *ngFor=\"let ph
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PhotoEditorComponent", function() { return PhotoEditorComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/fesm5/ng2-file-upload.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ng2-file-upload */ "./node_modules/ng2-file-upload/index.js");
+/* harmony import */ var ng2_file_upload__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ng2_file_upload__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/auth.service */ "./src/app/services/auth.service.ts");
 /* harmony import */ var src_app_services_user_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/user.service */ "./src/app/services/user.service.ts");
@@ -2161,7 +2175,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var _sentry_browser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @sentry/browser */ "./node_modules/@sentry/browser/esm/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2172,14 +2185,13 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
 var ErrorInterceptor = /** @class */ (function () {
     function ErrorInterceptor() {
     }
     ErrorInterceptor.prototype.intercept = function (req, next) {
         return next.handle(req).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["catchError"])(function (error) {
             // if (!isDevMode()) {
-            var eventId = _sentry_browser__WEBPACK_IMPORTED_MODULE_4__["captureException"](error.originalError || error);
+            // const eventId = Sentry.captureException(error.originalError || error);
             // }
             if (error instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpErrorResponse"]) {
                 var appError = error.headers.get('Application-Error');
@@ -2399,8 +2411,8 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 var environment = {
-    blacklistDomain: ['[::]:80/api/Auth'],
-    whiteListedDomain: ['[::]:80'],
+    blacklistDomain: ['[::]:5001/api/Auth'],
+    whiteListedDomain: ['[::]:5001'],
     production: false,
     baseUrl: '/',
     loginUrl: 'api/Auth/login',

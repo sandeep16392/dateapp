@@ -91,7 +91,7 @@ namespace DatingApp.API.Controllers
             if (await _photoRepo.SaveAll())
             {
                 var photoToReturn = _mapper.Map<UserPhotoDm>(photo);
-                return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
+                return Ok(photoToReturn);
             }
 
             return BadRequest("Could not add the photo.");

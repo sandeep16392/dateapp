@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  blacklistDomain: ['[::]:80/api/Auth'],
-  whiteListedDomain: ['[::]:80'],
+  blacklistDomain: ['[::]:5001/api/Auth'],
+  whiteListedDomain: ['[::]:5001'],
   production: false,
   baseUrl : '/',
   loginUrl : 'api/Auth/login',

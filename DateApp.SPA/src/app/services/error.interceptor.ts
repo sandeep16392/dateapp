@@ -19,7 +19,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError(error => {
         // if (!isDevMode()) {
-        const eventId = Sentry.captureException(error.originalError || error);
+        // const eventId = Sentry.captureException(error.originalError || error);
         // }
         if (error instanceof HttpErrorResponse) {
           const appError = error.headers.get('Application-Error');
