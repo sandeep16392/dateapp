@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using DateApp.DAL.Data;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using DateApp.API.Helpers;
 using DatingApp.API.Filters;
 using DateApp.Core.Contracts.DAL;
@@ -28,6 +21,9 @@ using DatingApp.Model.Mappers;
 using DateApp.DAL.Abstraction;
 using DateApp.API.Configs;
 using DateApp.DAL.Mappers;
+using Microsoft.OpenApi.Models;
+using DateApp.Core.Contracts.Services;
+using DateApp.Business.Services;
 
 namespace DateApp.API
 {
@@ -67,6 +63,7 @@ namespace DateApp.API
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IUsersService, UsersService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -79,6 +76,12 @@ namespace DateApp.API
                     ValidateAudience = false
                 };
             });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DateApp API Endpoints", Version = "v1" });
+            });
+
             services.AddScoped<LogUserActivityFilter>();
 
         }
@@ -111,6 +114,9 @@ namespace DateApp.API
                     });
                 });
             }
+
+            
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -128,7 +134,15 @@ namespace DateApp.API
             {
                 endpoints.MapDefaultControllerRoute();
             });
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
 
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "DateApp API V1");
+            });
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }

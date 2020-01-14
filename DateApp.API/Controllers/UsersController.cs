@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using DateApp.Core.Contracts.DAL;
+using DateApp.Core.Contracts.Services;
 using DateApp.Core.DataModels;
 using DateApp.Core.EntityModels;
 using DateApp.Core.Helpers;
@@ -19,12 +20,12 @@ namespace DatingApp.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _repository;
+        private readonly IUsersService _usersService;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository repository, IMapper mapper)
+        public UsersController(IUsersService usersService, IMapper mapper)
         {
-            _repository = repository;
+            _usersService = usersService;
             _mapper = mapper;
         }
 
@@ -32,32 +33,15 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
         {
             var currentUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            var currentUser = await _repository.GetUser(currentUserId);
-            userParams.UserId = currentUserId;
-            if (string.IsNullOrEmpty(userParams.Gender))
-            {
-                userParams.Gender = currentUser.Gender == "male" ? "female" : "male";
-            }
+            var users = await _usersService.GetUsers(userParams, currentUserId);
 
-
-            var users = await _repository.GetUsers(userParams);
-
-            var userDms = _mapper.Map<IEnumerable<UserListDm>>(users);
-            var paginatedResp = new PaginateResponseDm
-            {
-                Pagination = new PaginationDm(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages),
-                Users = userDms
-            };
-            //Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
-
-            return Ok(paginatedResp);
+            return Ok(users);
         }
 
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _repository.GetUser(id);
-            var userDm = _mapper.Map<UserDetailsDm>(user);
+            var userDm = await _usersService.GetUser(id);
             return Ok(userDm);
         }
 
@@ -67,10 +51,7 @@ namespace DatingApp.API.Controllers
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
-            var userFromRepo = await _repository.GetUser(id);
-            var userToSave = _mapper.Map(userForUpdate, userFromRepo);
-
-            if (await _repository.SaveAll())
+            if (await _usersService.UpdateUser(id, userForUpdate))
                 return NoContent();
 
             throw new Exception($"Updating user {id} failed on save.");
@@ -81,24 +62,23 @@ namespace DatingApp.API.Controllers
         {
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
-            var like = await _repository.GetLike(id, recepientId);
 
-            if (like != null)
-                return BadRequest("You already Like this User");
-
-            if (await _repository.GetUser(recepientId) == null)
-                return NotFound();
-
-            like = new Like
+            try
             {
-                LikerId = id,
-                LikeeId = recepientId
-            };
+                if(await _usersService.LikeUser(id, recepientId))
+                {
+                    return Ok();
+                }
+            }
+            catch (ArgumentException ex)
+            {
 
-            _repository.Add(like);
-
-            if (await _repository.SaveAll())
-                return Ok();
+                return BadRequest(ex.Message);
+            }
+            catch(NotSupportedException)
+            {
+                return NotFound();
+            }
 
             return BadRequest("Failed to Like user.");
         }
