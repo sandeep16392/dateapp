@@ -23,10 +23,10 @@ namespace DatingApp.API.Controllers
         private readonly IUserRepository _repository;
         private readonly IPhotoRepository _photoRepo;
         private readonly IMapper _mapper;
-        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private readonly CloudinarySettings _cloudinaryConfig;
         private CloudinaryDotNet.Cloudinary _cloudinary;
 
-        public PhotosController(IUserRepository repository, IPhotoRepository photoRepo, IMapper mapper, IOptions<CloudinarySettings> cloudinaryConfig)
+        public PhotosController(IUserRepository repository, IPhotoRepository photoRepo, IMapper mapper, CloudinarySettings cloudinaryConfig)
         {
             _repository = repository;
             _photoRepo = photoRepo;
@@ -35,9 +35,9 @@ namespace DatingApp.API.Controllers
 
             Account acc = new Account
             {
-                ApiKey = _cloudinaryConfig.Value.ApiKey,
-                ApiSecret = _cloudinaryConfig.Value.ApiSecret,
-                Cloud = _cloudinaryConfig.Value.CloudName
+                ApiKey = _cloudinaryConfig.ApiKey,
+                ApiSecret = _cloudinaryConfig.ApiSecret,
+                Cloud = _cloudinaryConfig.CloudName
             };
 
             _cloudinary = new CloudinaryDotNet.Cloudinary(acc);

@@ -44,18 +44,27 @@ namespace DateApp.API
             //{
             //    opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             //});
+            var dbconnstr = Configuration["DatingAppDatabase"];
             services.AddCors();
             services.AddSingleton<ICommonConfigurations, CommonConfigurations>();
             services.AddSingleton<IUserMapper, UserMapper>();
             services.AddTransient<Seed>();
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DatingAppDatabase")));
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration["DatingAppDatabase"]));
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             //    .AddJsonOptions(opt =>
             //    {
             //        opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             //    });
-
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySetting"));
+            var cloudName = Configuration["CloudName"];
+            var apiKey = Configuration["ApiKey"];
+            var apiSecret = Configuration["ApiSecret"];
+            var cloudinarySettings = new CloudinarySettings
+            {
+                ApiKey = apiKey,
+                ApiSecret = apiSecret,
+                CloudName = cloudName
+            };
+            services.AddSingleton(cloudinarySettings);
             //services.AddCors();
             services.AddAutoMapper(typeof(AutoMapperProfiles));
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -71,7 +80,7 @@ namespace DateApp.API
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey =
                         new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                            Encoding.UTF8.GetBytes(Configuration["Token"])),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };

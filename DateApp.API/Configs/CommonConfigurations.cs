@@ -11,7 +11,7 @@ namespace DateApp.API.Configs
             _configuration = configuration;
         }
 
-        public string Token => _configuration.GetSection("AppSettings:Token").Value;
-        public string ConnectionString => _configuration.GetConnectionString("DatingAppDatabase");
+        public string Token => _configuration["Token"];
+        public string ConnectionString => _configuration["DatingAppDatabase"];
     }
 }
