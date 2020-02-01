@@ -69,7 +69,7 @@ export function tokenGetter() {
       NgxGalleryModule,
       FileUploadModule,
       BsDropdownModule.forRoot(),
-      RouterModule.forRoot(appRoutes),
+      RouterModule.forRoot(appRoutes, {useHash: true}),
       TabsModule.forRoot(),
       JwtModule.forRoot({
          config: {
