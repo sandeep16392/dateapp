@@ -22,11 +22,14 @@ namespace DateApp.API
             .ConfigureAppConfiguration((context, config) =>
             {
                 var builtConfig = config.Build();
-                config.AddAzureKeyVault(
-                    $"https://{builtConfig["KeyVault:Vault"]}.vault.azure.net/",
-                    builtConfig["KeyVault:ClientId"],
-                    builtConfig["KeyVault:ClientSecret"],
-                    new DefaultKeyVaultSecretManager());
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                var isDevelopment = environment == Environments.Development;
+                if(!isDevelopment)
+                    config.AddAzureKeyVault(
+                        $"https://{builtConfig["KeyVault:Vault"]}.vault.azure.net/",
+                        builtConfig["KeyVault:ClientId"],
+                        builtConfig["KeyVault:ClientSecret"],
+                        new DefaultKeyVaultSecretManager());
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {
