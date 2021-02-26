@@ -49,7 +49,7 @@ namespace DateApp.API
             services.AddSingleton<ICommonConfigurations, CommonConfigurations>();
             services.AddSingleton<IUserMapper, UserMapper>();
             services.AddTransient<Seed>();
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration["DatingAppDatabase"]));
+            services.AddDbContext<DataContext>(x => x.UseNpgsql(Configuration["DatingAppDatabase"]));
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             //    .AddJsonOptions(opt =>
             //    {
@@ -102,7 +102,7 @@ namespace DateApp.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //seed.SeedData();
+                seeder.SeedUserData();
             }
             else
             {
