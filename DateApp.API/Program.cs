@@ -27,8 +27,8 @@ namespace DateApp.API
             {
                 loggerConfig
                 .ReadFrom.Configuration(ctx.Configuration)
-                .WriteTo.EventCollector(ctx.Configuration["SplunkUrl"], ctx.Configuration["Splunkkey"]);
-                //.WriteTo.Seq(ctx.Configuration["SeqLog"]);        //For SeqLog
+                //.WriteTo.EventCollector(ctx.Configuration["SplunkUrl"], ctx.Configuration["Splunkkey"]);
+                .WriteTo.Seq(ctx.Configuration["SeqLog"]);        //For SeqLog
             })
             .ConfigureAppConfiguration((context, config) =>
             {

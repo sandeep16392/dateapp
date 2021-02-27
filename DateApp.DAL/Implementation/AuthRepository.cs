@@ -4,15 +4,19 @@ using DateApp.Core.Contracts.DAL;
 using DateApp.Core.EntityModels;
 using DateApp.DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DateApp.DAL.Implementation
 {
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _context;
-        public AuthRepository(DataContext context)
+        private readonly ILogger<AuthRepository> logger;
+
+        public AuthRepository(DataContext context, ILogger<AuthRepository> logger)
         {
             _context = context;
+            this.logger = logger;
         }
         public async Task<User> Register(User user, string password)
         {
@@ -34,11 +38,13 @@ namespace DateApp.DAL.Implementation
             var user = await _context.Users.Include(p=>p.Photos).FirstOrDefaultAsync(x => x.UserName.Equals(username));
             if (user == null)
             {
+                logger.LogError($"Invalid user - {username}");
                 return null;
             }
 
             if (!VerifyPasswordHash(user.PasswordHash, user.PasswordSalt, password))
             {
+                logger.LogError($"Invalid password for user - {username}");
                 return null;
             }
 

@@ -10,6 +10,7 @@ using DateApp.Core.DataModels;
 using DateApp.Core.EntityModels;
 using DateApp.DAL.Abstraction;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DatingApp.API.Controllers
@@ -22,13 +23,15 @@ namespace DatingApp.API.Controllers
         private readonly ICommonConfigurations _config;
         private readonly IMapper _mapper;
         private readonly IUserMapper _userMapper;
+        private readonly ILogger<AuthController> logger;
 
-        public AuthController(IAuthRepository authRepository, ICommonConfigurations config, IMapper mapper, IUserMapper userMapper)
+        public AuthController(IAuthRepository authRepository, ICommonConfigurations config, IMapper mapper, IUserMapper userMapper, ILogger<AuthController> logger)
         {
             _authRepository = authRepository;
             _config = config;
             _mapper = mapper;
             _userMapper = userMapper;
+            this.logger = logger;
         }
 
         [HttpPost("register")]
@@ -39,7 +42,10 @@ namespace DatingApp.API.Controllers
             user.Username = user.Username.ToLower();
 
             if (await _authRepository.UserExists(user.Username))
+            {
+                logger.LogError($"Username -{user.Username} already exists.");
                 return BadRequest("Username already exists.");
+            }
 
             var userToCreate = _mapper.Map<User>(user);
 

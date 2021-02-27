@@ -7,6 +7,7 @@ using DateApp.Core.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using Microsoft.Extensions.Logging;
 
 namespace DateApp.Business.Services
 {
@@ -14,11 +15,13 @@ namespace DateApp.Business.Services
     {
         private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
+        private readonly ILogger<UsersService> _logger;
 
-        public UsersService(IUserRepository repository, IMapper mapper)
+        public UsersService(IUserRepository repository, IMapper mapper, ILogger<UsersService> logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<UserDetailsDm> GetUser(int id)
@@ -55,7 +58,10 @@ namespace DateApp.Business.Services
             var like = await _repository.GetLike(id, recepientId);
 
             if (like != null)
+            {
+                _logger.LogWarning("You already Like this User");
                 throw new ArgumentException("You already Like this User");
+            }
 
             if (await _repository.GetUser(recepientId) == null)
                 throw new NotSupportedException();
